@@ -102,7 +102,6 @@ struct EntriesListView: View {
                     EntryView(dataStore: dataStore, entry: Entry(id: UUID().uuidString), newEntry: true) // Create a new entry if no selected entry
                 }
             }
-            .ondelete()
         }
     }
 }
