@@ -1,0 +1,623 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		845B4E6D2D7CCF57007976B1 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E6C2D7CCF57007976B1 /* FirebaseCore */; };
+		845B4E6F2D7CCF57007976B1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E6E2D7CCF57007976B1 /* FirebaseFirestore */; };
+		845B4E712D7CCF57007976B1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E702D7CCF57007976B1 /* FirebaseStorage */; };
+		845B4E732D7CD1E9007976B1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E722D7CD1E9007976B1 /* FirebaseAuth */; };
+		845B4E7D2D7CFDB9007976B1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 845B4E7C2D7CFDB9007976B1 /* GoogleService-Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		847975F42D754799003C2396 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 847975DB2D754794003C2396 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 847975E22D754794003C2396;
+			remoteInfo = StorageLogger;
+		};
+		847975FE2D754799003C2396 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 847975DB2D754794003C2396 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 847975E22D754794003C2396;
+			remoteInfo = StorageLogger;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		845B4E7C2D7CFDB9007976B1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		847975E32D754794003C2396 /* StorageLogger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StorageLogger.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		847975F32D754799003C2396 /* StorageLoggerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StorageLoggerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		847975FD2D754799003C2396 /* StorageLoggerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StorageLoggerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		847975E52D754794003C2396 /* StorageLogger */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = StorageLogger;
+			sourceTree = "<group>";
+		};
+		847975F62D754799003C2396 /* StorageLoggerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = StorageLoggerTests;
+			sourceTree = "<group>";
+		};
+		847976002D754799003C2396 /* StorageLoggerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = StorageLoggerUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		847975E02D754794003C2396 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				845B4E6D2D7CCF57007976B1 /* FirebaseCore in Frameworks */,
+				845B4E6F2D7CCF57007976B1 /* FirebaseFirestore in Frameworks */,
+				845B4E712D7CCF57007976B1 /* FirebaseStorage in Frameworks */,
+				845B4E732D7CD1E9007976B1 /* FirebaseAuth in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		847975F02D754799003C2396 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		847975FA2D754799003C2396 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		847975DA2D754794003C2396 = {
+			isa = PBXGroup;
+			children = (
+				847975E52D754794003C2396 /* StorageLogger */,
+				847975F62D754799003C2396 /* StorageLoggerTests */,
+				847976002D754799003C2396 /* StorageLoggerUITests */,
+				847975E42D754794003C2396 /* Products */,
+				845B4E7C2D7CFDB9007976B1 /* GoogleService-Info.plist */,
+			);
+			sourceTree = "<group>";
+		};
+		847975E42D754794003C2396 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				847975E32D754794003C2396 /* StorageLogger.app */,
+				847975F32D754799003C2396 /* StorageLoggerTests.xctest */,
+				847975FD2D754799003C2396 /* StorageLoggerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		847975E22D754794003C2396 /* StorageLogger */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 847976072D754799003C2396 /* Build configuration list for PBXNativeTarget "StorageLogger" */;
+			buildPhases = (
+				847975DF2D754794003C2396 /* Sources */,
+				847975E02D754794003C2396 /* Frameworks */,
+				847975E12D754794003C2396 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				847975E52D754794003C2396 /* StorageLogger */,
+			);
+			name = StorageLogger;
+			packageProductDependencies = (
+				845B4E6C2D7CCF57007976B1 /* FirebaseCore */,
+				845B4E6E2D7CCF57007976B1 /* FirebaseFirestore */,
+				845B4E702D7CCF57007976B1 /* FirebaseStorage */,
+				845B4E722D7CD1E9007976B1 /* FirebaseAuth */,
+			);
+			productName = StorageLogger;
+			productReference = 847975E32D754794003C2396 /* StorageLogger.app */;
+			productType = "com.apple.product-type.application";
+		};
+		847975F22D754799003C2396 /* StorageLoggerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8479760A2D754799003C2396 /* Build configuration list for PBXNativeTarget "StorageLoggerTests" */;
+			buildPhases = (
+				847975EF2D754799003C2396 /* Sources */,
+				847975F02D754799003C2396 /* Frameworks */,
+				847975F12D754799003C2396 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				847975F52D754799003C2396 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				847975F62D754799003C2396 /* StorageLoggerTests */,
+			);
+			name = StorageLoggerTests;
+			packageProductDependencies = (
+			);
+			productName = StorageLoggerTests;
+			productReference = 847975F32D754799003C2396 /* StorageLoggerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		847975FC2D754799003C2396 /* StorageLoggerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8479760D2D754799003C2396 /* Build configuration list for PBXNativeTarget "StorageLoggerUITests" */;
+			buildPhases = (
+				847975F92D754799003C2396 /* Sources */,
+				847975FA2D754799003C2396 /* Frameworks */,
+				847975FB2D754799003C2396 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				847975FF2D754799003C2396 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				847976002D754799003C2396 /* StorageLoggerUITests */,
+			);
+			name = StorageLoggerUITests;
+			packageProductDependencies = (
+			);
+			productName = StorageLoggerUITests;
+			productReference = 847975FD2D754799003C2396 /* StorageLoggerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		847975DB2D754794003C2396 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					847975E22D754794003C2396 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					847975F22D754799003C2396 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 847975E22D754794003C2396;
+					};
+					847975FC2D754799003C2396 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 847975E22D754794003C2396;
+					};
+				};
+			};
+			buildConfigurationList = 847975DE2D754794003C2396 /* Build configuration list for PBXProject "StorageLogger" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 847975DA2D754794003C2396;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 847975E42D754794003C2396 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				847975E22D754794003C2396 /* StorageLogger */,
+				847975F22D754799003C2396 /* StorageLoggerTests */,
+				847975FC2D754799003C2396 /* StorageLoggerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		847975E12D754794003C2396 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				845B4E7D2D7CFDB9007976B1 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		847975F12D754799003C2396 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		847975FB2D754799003C2396 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		847975DF2D754794003C2396 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		847975EF2D754799003C2396 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		847975F92D754799003C2396 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		847975F52D754799003C2396 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 847975E22D754794003C2396 /* StorageLogger */;
+			targetProxy = 847975F42D754799003C2396 /* PBXContainerItemProxy */;
+		};
+		847975FF2D754799003C2396 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 847975E22D754794003C2396 /* StorageLogger */;
+			targetProxy = 847975FE2D754799003C2396 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		847976052D754799003C2396 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		847976062D754799003C2396 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		847976082D754799003C2396 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"StorageLogger/Preview Content\"";
+				DEVELOPMENT_TEAM = VAKA6JBRR4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to take photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app needs access to your photo library to select images";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Mabz.StorageLogger;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		847976092D754799003C2396 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"StorageLogger/Preview Content\"";
+				DEVELOPMENT_TEAM = VAKA6JBRR4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to take photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app needs access to your photo library to select images";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Mabz.StorageLogger;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8479760B2D754799003C2396 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Mabz.StorageLoggerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StorageLogger.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StorageLogger";
+			};
+			name = Debug;
+		};
+		8479760C2D754799003C2396 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Mabz.StorageLoggerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StorageLogger.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StorageLogger";
+			};
+			name = Release;
+		};
+		8479760E2D754799003C2396 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Mabz.StorageLoggerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = StorageLogger;
+			};
+			name = Debug;
+		};
+		8479760F2D754799003C2396 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Mabz.StorageLoggerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = StorageLogger;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		847975DE2D754794003C2396 /* Build configuration list for PBXProject "StorageLogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				847976052D754799003C2396 /* Debug */,
+				847976062D754799003C2396 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		847976072D754799003C2396 /* Build configuration list for PBXNativeTarget "StorageLogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				847976082D754799003C2396 /* Debug */,
+				847976092D754799003C2396 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8479760A2D754799003C2396 /* Build configuration list for PBXNativeTarget "StorageLoggerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8479760B2D754799003C2396 /* Debug */,
+				8479760C2D754799003C2396 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8479760D2D754799003C2396 /* Build configuration list for PBXNativeTarget "StorageLoggerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8479760E2D754799003C2396 /* Debug */,
+				8479760F2D754799003C2396 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		845B4E6C2D7CCF57007976B1 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		845B4E6E2D7CCF57007976B1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		845B4E702D7CCF57007976B1 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		845B4E722D7CD1E9007976B1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 847975DB2D754794003C2396 /* Project object */;
+}
