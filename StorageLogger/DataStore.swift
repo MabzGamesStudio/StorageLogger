@@ -32,4 +32,9 @@ class DataStore: ObservableObject {
             entries = decoded
         }
     }
+    
+    func removeEntry(at index: Int) {
+        guard entries.indices.contains(index) else { return } // Prevents crashes
+        entries.remove(at: index)
+    }
 }
