@@ -38,9 +38,22 @@
 		847975FD2D754799003C2396 /* StorageLoggerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StorageLoggerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		845DF30C2D90EE62000D0653 /* Exceptions for "StorageLogger" folder in "StorageLogger" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 847975E22D754794003C2396 /* StorageLogger */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		847975E52D754794003C2396 /* StorageLogger */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				845DF30C2D90EE62000D0653 /* Exceptions for "StorageLogger" folder in "StorageLogger" target */,
+			);
 			path = StorageLogger;
 			sourceTree = "<group>";
 		};
@@ -215,6 +228,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				845B4EBA2D90E7DC007976B1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 847975E42D754794003C2396 /* Products */;
@@ -422,6 +436,8 @@
 				DEVELOPMENT_TEAM = VAKA6JBRR4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StorageLogger/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to take photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app needs access to your photo library to select images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -455,6 +471,8 @@
 				DEVELOPMENT_TEAM = VAKA6JBRR4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StorageLogger/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to take photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app needs access to your photo library to select images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -592,6 +610,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 11.9.0;
+			};
+		};
+		845B4EBA2D90E7DC007976B1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.19;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

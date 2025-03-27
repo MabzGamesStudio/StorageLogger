@@ -22,9 +22,16 @@ struct EntryView: View {
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @ObservedObject var dataStore = DataStore()
     @State var entry: Entry
+    @Binding var isAddingEntry: Bool
+    @State private var showDiscardAlert = false
+    @State private var hasChanges = false
+    @State private var selectedImageChanged: Bool = false
     
-    init(dataStore: DataStore, entry: Entry, newEntry: Bool) {
+    init(dataStore: DataStore, entry: Entry, newEntry: Bool, isAddingEntry: Binding<Bool>) {
         self.dataStore = dataStore
+        self.entry = entry
+        self.newEntry = newEntry
+        self._isAddingEntry = isAddingEntry
         _id = State(initialValue: entry.id)
         _entry = State(initialValue: entry)
         _name = State(initialValue: entry.name ?? "")
@@ -36,6 +43,18 @@ struct EntryView: View {
         _selectedDate = State(initialValue: entry.buyDate ?? Date())
         _newEntry = State(initialValue: newEntry)
         _selectedImage = State(initialValue: entry.imageFilename != nil && !newEntry ? loadImageFromDocumentsDirectory(filename: entry.imageFilename!) : nil)
+    }
+    
+    private func checkForChanges() {
+        hasChanges =
+            entry.name != name
+            || selectedImageChanged
+            || entry.price != Double(price)
+            || entry.quantity != Int(quantity)
+            || entry.description != description
+            || entry.notes != notes
+            || entry.tags != tags
+            || entry.buyDate != selectedDate
     }
 
     var body: some View {
@@ -89,43 +108,55 @@ struct EntryView: View {
                     .fullScreenCover(isPresented: $showCamera) {
                         ImagePicker(image: $selectedImage, sourceType: .camera)
                     }
+                    .onChange(of: selectedImage) {
+                        selectedImageChanged = true
+                        checkForChanges()
+                    }
+                    // TODO: Fix image change
                     
                     TextField("Name", text: $name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .focused($isTextFieldFocused)
+                        .onChange(of: name) { checkForChanges() }
                     
                     TextField("Price", text: $price)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .focused($isTextFieldFocused)
+                        .onChange(of: price) { checkForChanges() }
                     
                     TextField("Quantity", text: $quantity)
                         .keyboardType(.numberPad)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .focused($isTextFieldFocused)
+                        .onChange(of: quantity) { checkForChanges() }
                     
                     TextField("Description", text: $description)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .focused($isTextFieldFocused)
+                        .onChange(of: description) { checkForChanges() }
                     
                     TextField("Notes", text: $notes)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .focused($isTextFieldFocused)
+                        .onChange(of: notes) { checkForChanges() }
                     
                     TextField("Tags", text: $tags)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .focused($isTextFieldFocused)
+                        .onChange(of: tags) { checkForChanges() }
                     
                     DatePicker("Buy Date", selection: $selectedDate, displayedComponents: .date)
                         .datePickerStyle(.compact)
                         .padding()
                         .focused($isTextFieldFocused)
+                        .onChange(of: selectedDate) { checkForChanges() }
                     Button(action: uploadEntry) {
                         Text(newEntry ? (isUploading ? "Adding Entry..." : "Add Entry") : (isUploading ? "Editing Entry..." : "Edit Entry"))
                             .frame(maxWidth: .infinity)
@@ -142,20 +173,50 @@ struct EntryView: View {
                 .onTapGesture {
                     isTextFieldFocused = false
                 }
-                .toolbar {
+                .toolbar(content: {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
                         Button("Done") {
                             isTextFieldFocused = false
                         }
                     }
+                })
+                .alert(isPresented: $showDiscardAlert) {
+                    Alert(
+                        title: Text("Discard Changes?"),
+                        primaryButton: .destructive(Text("Discard")) {
+                            isAddingEntry = false
+                        },
+                        secondaryButton: .cancel()
+                    )
                 }
             }
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: Button(action: {
+            if hasChanges {
+                showDiscardAlert = true
+            } else {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }) {
+            Image(systemName: "chevron.left")
+            Text("Entries")
+        })
+        .alert(isPresented: $showDiscardAlert) {
+            Alert(
+                title: Text("Discard Changes?"),
+                message: Text("Are you sure you want to leave without saving?"),
+                primaryButton: .destructive(Text("Discard")) {
+                    self.presentationMode.wrappedValue.dismiss()
+                },
+                secondaryButton: .cancel()
+            )
         }
     }
 
     func uploadEntry() {
-        let imageFilename = selectedImage.flatMap { saveImageToDocumentsDirectory(image: $0, maxFileSizeKB: 500) }
+        let imageFilename = selectedImage.flatMap { saveImageToDocumentsDirectory(image: $0, maxFileSizeKB: 150) }
         let price = Double(price).flatMap { $0.isNaN ? nil : $0 }
         let quantity = Int(quantity) ?? nil
         let name = name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : name
@@ -180,6 +241,9 @@ struct EntryView: View {
                 dataStore.entries[index] = editedEntry
             }
         }
+        if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
+            UserDefaults.standard.set(encodedData, forKey: "entries")
+        }
         presentationMode.wrappedValue.dismiss()
     }
     
@@ -195,11 +259,11 @@ struct EntryView: View {
     
     func saveImageToDocumentsDirectory(image: UIImage, maxFileSizeKB: Int) -> String? {
         let maxFileSize = maxFileSizeKB * 1024
-        var compression: CGFloat = 1.0
+        var compression: CGFloat = 0.0
         var imageData: Data? = image.jpegData(compressionQuality: compression)
         
-        while let data = imageData, data.count > maxFileSize, compression > 0.1 {
-            compression -= 0.1
+        while let data = imageData, data.count > maxFileSize, compression > 0.01 {
+            compression -= 0.01
             imageData = image.jpegData(compressionQuality: compression)
         }
         
