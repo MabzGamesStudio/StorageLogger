@@ -10,8 +10,8 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct ExportDataView: View {
-    @State private var showShareSheet = false
-    @State private var exportedFileURL: URL?
+    @State private var dataJson = JsonFile()
+    @State private var showFileExplorer = false
     @ObservedObject var dataStore = DataStore()
     
     func exportDataStoreToJSON() -> URL? {
@@ -39,8 +39,8 @@ struct ExportDataView: View {
                 .padding()
 
             Button(action: {
-                exportedFileURL = exportDataStoreToJSON()
-                showShareSheet = exportedFileURL != nil
+                dataJson = JsonFile(data: Data("{\"data\": \"Hello World\"}".utf8))
+                showFileExplorer = true
             }) {
                 Text("Download Backup JSON")
                     .frame(maxWidth: .infinity)
@@ -49,23 +49,36 @@ struct ExportDataView: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
+            .fileExporter(isPresented: $showFileExplorer, document: dataJson, contentType: .json) { result in
+                switch result {
+                    case .success(let url):
+                        print("Saved to \(url)")
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+            }
             .padding()
         }
-        .sheet(isPresented: $showShareSheet, content: {
-            if let url = exportedFileURL {
-                ShareSheet(activityItems: [url])
-            }
-        })
     }
 }
 
-struct ShareSheet: UIViewControllerRepresentable {
-    var activityItems: [Any]
+struct JsonFile: FileDocument {
+    static var readableContentTypes: [UTType] { [.json] }
+    
+    var data: Data
 
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        return controller
+    init(data: Data = Data()) {
+        self.data = data
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+    init(configuration: ReadConfiguration) throws {
+        guard let loadedData = configuration.file.regularFileContents else {
+            throw NSError(domain: "FileDocumentError", code: 1, userInfo: nil)
+        }
+        self.data = loadedData
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        return FileWrapper(regularFileWithContents: data)
+    }
 }
