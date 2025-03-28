@@ -169,7 +169,7 @@ struct EntryView: View {
                     .disabled(isUploading)
                 }
                 .padding()
-                .navigationTitle("New Entry")
+                .navigationTitle(newEntry ? "New Entry" : "Update Entry")
                 .onTapGesture {
                     isTextFieldFocused = false
                 }
