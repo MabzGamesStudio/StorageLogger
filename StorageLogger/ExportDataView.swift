@@ -8,10 +8,12 @@
 import UIKit
 import SwiftUI
 import UniformTypeIdentifiers
+import Foundation
 
 struct ExportDataView: View {
-    @State private var dataJson = JsonFile()
+    @State private var dataJson = CompressedFile()
     @State private var showFileExplorer = false
+    @State private var showFileImporter = false
     @ObservedObject var dataStore = DataStore()
     
     func exportDataStoreToJSON() -> URL? {
@@ -39,7 +41,14 @@ struct ExportDataView: View {
                 .padding()
 
             Button(action: {
-                dataJson = JsonFile(data: Data("{\"data\": \"Hello World\"}".utf8))
+                let data = Data("{\"data\": \"Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World \"}".utf8)
+                do {
+                    let compressedData = try (data as NSData).compressed(using: .lzfse)
+                    print(compressedData)
+                    dataJson = CompressedFile(data: compressedData as Data)
+                } catch {
+                    print(error.localizedDescription)
+                }
                 showFileExplorer = true
             }) {
                 Text("Download Backup JSON")
@@ -55,6 +64,52 @@ struct ExportDataView: View {
                         print("Saved to \(url)")
                     case .failure(let error):
                         print(error.localizedDescription)
+                }
+            }
+            .padding()
+            Text("Import Data")
+                .font(.title)
+                .padding()
+
+            Button(action: {
+                showFileImporter = true
+            }) {
+                Text("Upload Backup JSON")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+            .fileImporter(
+                isPresented: $showFileImporter,
+                allowedContentTypes: [.data], // Accepts generic data files
+                allowsMultipleSelection: false
+            ) { result in
+                switch result {
+                    case .success(let urls):
+                        if let fileURL = urls.first {
+                            do {
+                                // Read the selected file
+                                let compressedData = try Data(contentsOf: fileURL)
+                                
+                                let decompressedData = try (compressedData as NSData).decompressed(using: .lzfse)
+                                
+                                // Decompress using LZFSE
+                                if let jsonString = String(data: decompressedData as Data, encoding: .utf8) {
+                                    print("Decompressed JSON: \(jsonString)")
+                                    
+                                    // Store decompressed data for later use
+                                    dataJson = CompressedFile(data: decompressedData as Data)
+                                } else {
+                                    print("Decompression succeeded, but data is not valid JSON")
+                                }
+                            } catch {
+                                print("Failed to read file: \(error.localizedDescription)")
+                            }
+                        }
+                    case .failure(let error):
+                        print("Import failed: \(error.localizedDescription)")
                     }
             }
             .padding()
@@ -62,8 +117,8 @@ struct ExportDataView: View {
     }
 }
 
-struct JsonFile: FileDocument {
-    static var readableContentTypes: [UTType] { [.json] }
+struct CompressedFile: FileDocument {
+    static var readableContentTypes: [UTType] { [.data] } // Use binary data type
     
     var data: Data
 
