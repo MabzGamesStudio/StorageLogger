@@ -143,6 +143,7 @@ struct ExportDataView: View {
                                 
                                 let decompressedData = try (compressedData as NSData).decompressed(using: .lzfse)
                                 dataStore.entries = restoreEntries(from: decompressedData as Data)
+                                print(dataStore.entries)
                                 if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
                                     UserDefaults.standard.set(encodedData, forKey: "entries")
                                 }

@@ -76,21 +76,18 @@ func decodeEntries(from jsonData: Data) -> [EntryWithBase64]? {
     }
 }
 
-func saveImage(fromBase64 base64String: String, filename: String) -> URL? {
-    guard let imageData = Data(base64Encoded: base64String) else {
+func saveImage(fromBase64 base64String: String, filename: String) {
+    if let imageData = Data(base64Encoded: base64String) {
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent(filename)
+
+        do {
+            try imageData.write(to: fileURL)
+        } catch {
+            print("Failed to save image: \(error.localizedDescription)")
+        }
+    } else {
         print("Failed to decode base64 string")
-        return nil
-    }
-
-    let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        .appendingPathComponent(filename)
-
-    do {
-        try imageData.write(to: fileURL)
-        return fileURL
-    } catch {
-        print("Failed to save image: \(error.localizedDescription)")
-        return nil
     }
 }
 
@@ -105,8 +102,9 @@ func restoreEntries(from jsonData: Data) -> [Entry] {
     // Iterate over each decoded EntryWithBase64 and convert to Entry
     for entryWithBase64 in decodedEntries {
         // Handle base64 to image conversion
+        let filename = UUID().uuidString + ".jpg"
         var entry = Entry(id: entryWithBase64.id,
-                          imageFilename: nil, // Default to nil, will update if image exists
+                          imageFilename: filename,
                           name: entryWithBase64.name,
                           price: entryWithBase64.price,
                           quantity: entryWithBase64.quantity,
@@ -117,10 +115,8 @@ func restoreEntries(from jsonData: Data) -> [Entry] {
         
         // Convert the base64 image data to a file if it exists
         if let imageBase64 = entryWithBase64.imageBase64 {
-            let filename = UUID().uuidString + ".jpg" // Generate a unique filename
-            if let imageURL = saveImage(fromBase64: imageBase64, filename: filename) {
-                entry.imageFilename = imageURL.path // Assign the file path to the Entry
-            }
+            saveImage(fromBase64: imageBase64, filename: filename)
+            
         }
         
         // Append the converted entry to the result list

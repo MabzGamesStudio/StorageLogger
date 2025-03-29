@@ -19,6 +19,7 @@ struct EntriesListView: View {
     @State private var showDeleteAlert = false
     @State private var searchText: String = ""
     @FocusState private var isTextFieldFocused: Bool
+    @State private var images: [String: UIImage] = [:]
     
     var filteredEntries: [Entry] {
         if searchText.isEmpty {
@@ -56,6 +57,19 @@ struct EntriesListView: View {
             if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
                 UserDefaults.standard.set(encodedData, forKey: "entries")
             }
+        }
+    }
+    
+    private func loadImage(for entry: Entry) {
+        if let imageFilename = entry.imageFilename {
+            images[imageFilename] = loadImageFromDocumentsDirectory(filename: imageFilename)
+        }
+    }
+    
+    private func reloadImages() {
+        images.removeAll() // Clear existing images
+        for entry in dataStore.entries {
+            loadImage(for: entry)
         }
     }
 
@@ -108,6 +122,12 @@ struct EntriesListView: View {
                             }
                             .padding(.vertical, 5)
                             .contentShape(Rectangle())
+                            .onAppear {
+                                loadImage(for: entry)
+                            }
+//                            .onChange(of: dataStore.entries) { _ in
+//                                reloadImages()
+//                            }
                             .onTapGesture {
                                 selectedEntry = entry
                                 isAddingEntry = true
