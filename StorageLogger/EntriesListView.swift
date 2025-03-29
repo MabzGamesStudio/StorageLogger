@@ -161,7 +161,7 @@ struct EntriesListView: View {
                     DeveloperScreenView()
                 }
                 .navigationDestination(isPresented: $isShowingDataUpload) {
-                    ExportDataView()
+                    ExportDataView(dataStore: dataStore)
                 }
                 .alert("Delete Entry",
                        isPresented: $showDeleteAlert,

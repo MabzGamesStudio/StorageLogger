@@ -11,10 +11,14 @@ import UniformTypeIdentifiers
 import Foundation
 
 struct ExportDataView: View {
-    @State private var dataJson = CompressedFile()
+    @State private var dataExport = CompressedFile()
     @State private var showFileExplorer = false
     @State private var showFileImporter = false
     @ObservedObject var dataStore = DataStore()
+    
+    init(dataStore: DataStore) {
+        self.dataStore = dataStore
+    }
     
     func exportDataStoreToJSON() -> URL? {
         let fileManager = FileManager.default
@@ -36,29 +40,34 @@ struct ExportDataView: View {
     
     var body: some View {
         VStack {
-            Text("Backup Data")
+            Text("Export Data")
                 .font(.title)
                 .padding()
 
             Button(action: {
-                let data = Data("{\"data\": \"Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World \"}".utf8)
+                let data: Data
+                if let jsonString = convertEntriesToJson(entries: dataStore.entries) {
+                    data = Data(jsonString.utf8)
+                } else {
+                    data = Data("".utf8)
+                }
                 do {
                     let compressedData = try (data as NSData).compressed(using: .lzfse)
                     print(compressedData)
-                    dataJson = CompressedFile(data: compressedData as Data)
+                    dataExport = CompressedFile(data: compressedData as Data)
                 } catch {
                     print(error.localizedDescription)
                 }
                 showFileExplorer = true
             }) {
-                Text("Download Backup JSON")
+                Text("Download")
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
-            .fileExporter(isPresented: $showFileExplorer, document: dataJson, contentType: .json) { result in
+            .fileExporter(isPresented: $showFileExplorer, document: dataExport, contentType: .data) { result in
                 switch result {
                     case .success(let url):
                         print("Saved to \(url)")
@@ -71,10 +80,49 @@ struct ExportDataView: View {
                 .font(.title)
                 .padding()
 
+//            Button(action: {
+//                showFileImporter = true
+//            }) {
+//                Text("File Upload: Combine")
+//                    .frame(maxWidth: .infinity)
+//                    .padding()
+//                    .background(Color.blue)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(10)
+//            }
+//            .fileImporter(
+//                isPresented: $showFileImporter,
+//                allowedContentTypes: [.data], // Accepts generic data files
+//                allowsMultipleSelection: false
+//            ) { result in
+//                switch result {
+//                    case .success(let urls):
+//                        if let fileURL = urls.first {
+//                            do {
+//                                // Read the selected file
+//                                let compressedData = try Data(contentsOf: fileURL)
+//                                
+//                                let decompressedData = try (compressedData as NSData).decompressed(using: .lzfse)
+//                                
+//                                // Decompress using LZFSE
+//                                if let jsonString = String(data: decompressedData as Data, encoding: .utf8) {
+//                                    // TODO: If two entries with same id already exists, then use existing in dataStore
+//                                } else {
+//                                    print("Decompression succeeded, but data is not valid JSON")
+//                                }
+//                            } catch {
+//                                print("Failed to read file: \(error.localizedDescription)")
+//                            }
+//                        }
+//                    case .failure(let error):
+//                        print("Import failed: \(error.localizedDescription)")
+//                    }
+//            }
+//            .padding()
             Button(action: {
                 showFileImporter = true
             }) {
-                Text("Upload Backup JSON")
+                Text("File Upload: Replace")
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.blue)
@@ -94,15 +142,9 @@ struct ExportDataView: View {
                                 let compressedData = try Data(contentsOf: fileURL)
                                 
                                 let decompressedData = try (compressedData as NSData).decompressed(using: .lzfse)
-                                
-                                // Decompress using LZFSE
-                                if let jsonString = String(data: decompressedData as Data, encoding: .utf8) {
-                                    print("Decompressed JSON: \(jsonString)")
-                                    
-                                    // Store decompressed data for later use
-                                    dataJson = CompressedFile(data: decompressedData as Data)
-                                } else {
-                                    print("Decompression succeeded, but data is not valid JSON")
+                                dataStore.entries = restoreEntries(from: decompressedData as Data)
+                                if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
+                                    UserDefaults.standard.set(encodedData, forKey: "entries")
                                 }
                             } catch {
                                 print("Failed to read file: \(error.localizedDescription)")
