@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import GoogleMobileAds
 
 struct EntryView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -26,6 +27,7 @@ struct EntryView: View {
     @State private var showDiscardAlert = false
     @State private var hasChanges = false
     @State private var selectedImageChanged: Bool = false
+    @StateObject private var adViewModel = InterstitialViewModel()
     
     init(dataStore: DataStore, entry: Entry, newEntry: Bool, isAddingEntry: Binding<Bool>) {
         self.dataStore = dataStore
@@ -165,6 +167,11 @@ struct EntryView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
+                    .onAppear {
+                        Task {
+                            await adViewModel.loadAd()
+                        }
+                    }
                     .padding()
                     .disabled(isUploading)
                 }
@@ -243,6 +250,13 @@ struct EntryView: View {
         }
         if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
             UserDefaults.standard.set(encodedData, forKey: "entries")
+        }
+        
+        if dataStore.counterForAd == 5 {
+            dataStore.resetCounterForAd()
+            adViewModel.showAd()
+        } else {
+            dataStore.incrementCounterForAd()
         }
         presentationMode.wrappedValue.dismiss()
     }

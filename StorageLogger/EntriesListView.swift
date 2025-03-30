@@ -21,6 +21,10 @@ struct EntriesListView: View {
     @FocusState private var isTextFieldFocused: Bool
     @State private var images: [String: UIImage] = [:]
     
+    init() {
+        UserDefaults.standard.set(0, forKey: "counterForAd")
+    }
+    
     var filteredEntries: [Entry] {
         if searchText.isEmpty {
             return dataStore.entries
@@ -123,12 +127,6 @@ struct EntriesListView: View {
                             }
                             .padding(.vertical, 5)
                             .contentShape(Rectangle())
-                            .onAppear {
-                                loadImage(for: entry)
-                            }
-//                            .onChange(of: dataStore.entries) { _ in
-//                                reloadImages()
-//                            }
                             .onTapGesture {
                                 selectedEntry = entry
                                 isAddingEntry = true

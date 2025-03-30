@@ -8,13 +8,25 @@ import SwiftUI
 
 class DataStore: ObservableObject {
     @Published var entries: [Entry] = []
+    @Published var counterForAd: Int = 1
 
     private let storageKey = "entries"
+    private let adCounterKey = "counterForAd"
 
     init() {
         loadEntries()
     }
 
+    func incrementCounterForAd() {
+        counterForAd += 1
+        UserDefaults.standard.set(counterForAd, forKey: adCounterKey)
+    }
+    
+    func resetCounterForAd() {
+        counterForAd = 1
+        UserDefaults.standard.set(counterForAd, forKey: adCounterKey)
+    }
+    
     func addEntry(_ entry: Entry) {
         entries.append(entry)
         saveEntries()

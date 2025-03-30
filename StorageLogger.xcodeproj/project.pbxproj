@@ -12,6 +12,8 @@
 		845B4E712D7CCF57007976B1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E702D7CCF57007976B1 /* FirebaseStorage */; };
 		845B4E732D7CD1E9007976B1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E722D7CD1E9007976B1 /* FirebaseAuth */; };
 		845B4E7D2D7CFDB9007976B1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 845B4E7C2D7CFDB9007976B1 /* GoogleService-Info.plist */; };
+		845DF30F2D99B6DC000D0653 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 845DF30E2D99B6DC000D0653 /* GoogleMobileAds */; };
+		845DF3122D99BBB2000D0653 /* GoogleUserMessagingPlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 845DF3112D99BBB2000D0653 /* GoogleUserMessagingPlatform */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +78,9 @@
 			files = (
 				845B4E6D2D7CCF57007976B1 /* FirebaseCore in Frameworks */,
 				845B4E6F2D7CCF57007976B1 /* FirebaseFirestore in Frameworks */,
+				845DF30F2D99B6DC000D0653 /* GoogleMobileAds in Frameworks */,
 				845B4E712D7CCF57007976B1 /* FirebaseStorage in Frameworks */,
+				845DF3122D99BBB2000D0653 /* GoogleUserMessagingPlatform in Frameworks */,
 				845B4E732D7CD1E9007976B1 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,6 +147,8 @@
 				845B4E6E2D7CCF57007976B1 /* FirebaseFirestore */,
 				845B4E702D7CCF57007976B1 /* FirebaseStorage */,
 				845B4E722D7CD1E9007976B1 /* FirebaseAuth */,
+				845DF30E2D99B6DC000D0653 /* GoogleMobileAds */,
+				845DF3112D99BBB2000D0653 /* GoogleUserMessagingPlatform */,
 			);
 			productName = StorageLogger;
 			productReference = 847975E32D754794003C2396 /* StorageLogger.app */;
@@ -229,6 +235,8 @@
 			packageReferences = (
 				845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				845B4EBA2D90E7DC007976B1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+				845DF30D2D99B6DC000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				845DF3102D99BBB2000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 847975E42D754794003C2396 /* Products */;
@@ -415,9 +423,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = /usr/lib/swift;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
@@ -437,6 +447,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StorageLogger/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to take photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app needs access to your photo library to select images";
@@ -473,6 +484,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StorageLogger/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to take photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app needs access to your photo library to select images";
@@ -622,6 +634,22 @@
 				minimumVersion = 0.9.19;
 			};
 		};
+		845DF30D2D99B6DC000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.2.0;
+			};
+		};
+		845DF3102D99BBB2000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -644,6 +672,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		845DF30E2D99B6DC000D0653 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845DF30D2D99B6DC000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		845DF3112D99BBB2000D0653 /* GoogleUserMessagingPlatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845DF3102D99BBB2000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */;
+			productName = GoogleUserMessagingPlatform;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
