@@ -42,8 +42,9 @@ struct EntriesListView: View {
     }
     
     func loadImageFromDocumentsDirectory(filename: String) -> UIImage? {
-        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent(filename)
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let imageDataFolderURL = documentsURL.appendingPathComponent("ImageData")
+        let fileURL = imageDataFolderURL.appendingPathComponent(filename)
         
         if let imageData = try? Data(contentsOf: fileURL) {
             return UIImage(data: imageData)

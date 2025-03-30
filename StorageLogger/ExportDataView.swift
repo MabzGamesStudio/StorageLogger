@@ -11,9 +11,11 @@ import UniformTypeIdentifiers
 import Foundation
 
 struct ExportDataView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var dataExport = CompressedFile()
     @State private var showFileExplorer = false
-    @State private var showFileImporter = false
+    @State private var showFileImporterCombine = false
+    @State private var showFileImporterReplace = false
     @ObservedObject var dataStore = DataStore()
     
     init(dataStore: DataStore) {
@@ -80,47 +82,49 @@ struct ExportDataView: View {
                 .font(.title)
                 .padding()
 
-//            Button(action: {
-//                showFileImporter = true
-//            }) {
-//                Text("File Upload: Combine")
-//                    .frame(maxWidth: .infinity)
-//                    .padding()
-//                    .background(Color.blue)
-//                    .foregroundColor(.white)
-//                    .cornerRadius(10)
-//            }
-//            .fileImporter(
-//                isPresented: $showFileImporter,
-//                allowedContentTypes: [.data], // Accepts generic data files
-//                allowsMultipleSelection: false
-//            ) { result in
-//                switch result {
-//                    case .success(let urls):
-//                        if let fileURL = urls.first {
-//                            do {
-//                                // Read the selected file
-//                                let compressedData = try Data(contentsOf: fileURL)
-//                                
-//                                let decompressedData = try (compressedData as NSData).decompressed(using: .lzfse)
-//                                
-//                                // Decompress using LZFSE
-//                                if let jsonString = String(data: decompressedData as Data, encoding: .utf8) {
-//                                    // TODO: If two entries with same id already exists, then use existing in dataStore
-//                                } else {
-//                                    print("Decompression succeeded, but data is not valid JSON")
-//                                }
-//                            } catch {
-//                                print("Failed to read file: \(error.localizedDescription)")
-//                            }
-//                        }
-//                    case .failure(let error):
-//                        print("Import failed: \(error.localizedDescription)")
-//                    }
-//            }
-//            .padding()
             Button(action: {
-                showFileImporter = true
+                showFileImporterCombine = true
+            }) {
+                Text("File Upload: Combine")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+            .fileImporter(
+                isPresented: $showFileImporterCombine,
+                allowedContentTypes: [.data], // Accepts generic data files
+                allowsMultipleSelection: false
+            ) { result in
+                switch result {
+                    case .success(let urls):
+                        if let fileURL = urls.first {
+                            do {
+                                // Read the selected file
+                                let compressedData = try Data(contentsOf: fileURL)
+                                
+                                
+                                // Decompress using LZFSE
+                                let decompressedData = try (compressedData as NSData).decompressed(using: .lzfse)
+                                
+                                // TODO: Combine the two lists, and only add images of entries that does not have a duplicate between the lists
+                                dataStore.entries = restoreEntries(from: decompressedData as Data, intersection: dataStore.entries)
+                                if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
+                                    UserDefaults.standard.set(encodedData, forKey: "entries")
+                                }
+                                self.presentationMode.wrappedValue.dismiss()
+                            } catch {
+                                print("Failed to read file: \(error.localizedDescription)")
+                            }
+                        }
+                    case .failure(let error):
+                        print("Import failed: \(error.localizedDescription)")
+                    }
+            }
+            .padding()
+            Button(action: {
+                showFileImporterReplace = true
             }) {
                 Text("File Upload: Replace")
                     .frame(maxWidth: .infinity)
@@ -130,7 +134,7 @@ struct ExportDataView: View {
                     .cornerRadius(10)
             }
             .fileImporter(
-                isPresented: $showFileImporter,
+                isPresented: $showFileImporterReplace,
                 allowedContentTypes: [.data], // Accepts generic data files
                 allowsMultipleSelection: false
             ) { result in
@@ -142,11 +146,11 @@ struct ExportDataView: View {
                                 let compressedData = try Data(contentsOf: fileURL)
                                 
                                 let decompressedData = try (compressedData as NSData).decompressed(using: .lzfse)
-                                dataStore.entries = restoreEntries(from: decompressedData as Data)
-                                print(dataStore.entries)
+                                dataStore.entries = restoreEntries(from: decompressedData as Data, intersection: nil)
                                 if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
                                     UserDefaults.standard.set(encodedData, forKey: "entries")
                                 }
+                                self.presentationMode.wrappedValue.dismiss()
                             } catch {
                                 print("Failed to read file: \(error.localizedDescription)")
                             }

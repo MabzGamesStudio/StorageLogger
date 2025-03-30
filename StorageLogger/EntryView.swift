@@ -248,8 +248,9 @@ struct EntryView: View {
     }
     
     func loadImageFromDocumentsDirectory(filename: String) -> UIImage? {
-        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent(filename)
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let imageDataFolderURL = documentsURL.appendingPathComponent("ImageData")
+        let fileURL = imageDataFolderURL.appendingPathComponent(filename)
         
         if let imageData = try? Data(contentsOf: fileURL) {
             return UIImage(data: imageData)
@@ -270,8 +271,17 @@ struct EntryView: View {
         guard let finalData = imageData else { return nil }
         
         let filename = UUID().uuidString + ".jpg"
-        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent(filename)
+        
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let imageDataFolderURL = documentsURL.appendingPathComponent("ImageData")
+        if !FileManager.default.fileExists(atPath: imageDataFolderURL.path) {
+            do {
+                try FileManager.default.createDirectory(at: imageDataFolderURL, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("Failed to create directory: \(error)")
+            }
+        }
+        let fileURL = imageDataFolderURL.appendingPathComponent(filename)
         
         do {
             try finalData.write(to: fileURL)

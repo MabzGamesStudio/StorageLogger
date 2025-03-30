@@ -78,8 +78,18 @@ func decodeEntries(from jsonData: Data) -> [EntryWithBase64]? {
 
 func saveImage(fromBase64 base64String: String, filename: String) {
     if let imageData = Data(base64Encoded: base64String) {
-        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent(filename)
+        
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let imageDataFolderURL = documentsURL.appendingPathComponent("ImageData")
+        if !FileManager.default.fileExists(atPath: imageDataFolderURL.path) {
+            do {
+                try FileManager.default.createDirectory(at: imageDataFolderURL, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("Failed to create directory: \(error)")
+            }
+        }
+        
+        let fileURL = imageDataFolderURL.appendingPathComponent(filename)
 
         do {
             try imageData.write(to: fileURL)
@@ -91,19 +101,37 @@ func saveImage(fromBase64 base64String: String, filename: String) {
     }
 }
 
-func restoreEntries(from jsonData: Data) -> [Entry] {
+func restoreEntries(from jsonData: Data, intersection: [Entry]?) -> [Entry] {
     // Decode the JSON into EntryWithBase64 objects
     guard let decodedEntries = decodeEntries(from: jsonData) else {
         return []
     }
+    
+    if intersection == nil {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let imageDataFolderURL = documentsURL.appendingPathComponent("ImageData")
 
-    var restoredEntries: [Entry] = []
+        do {
+            let fileManager = FileManager.default
+            let fileURLs = try fileManager.contentsOfDirectory(at: imageDataFolderURL, includingPropertiesForKeys: nil, options: [])
+
+            for fileURL in fileURLs {
+                try fileManager.removeItem(at: fileURL)
+            }
+            
+            print("All files in ImageData folder have been deleted.")
+        } catch {
+            print("Failed to clear ImageData folder: \(error)")
+        }
+    }
+
+    var restoredEntries: [Entry] = intersection ?? []
 
     // Iterate over each decoded EntryWithBase64 and convert to Entry
     for entryWithBase64 in decodedEntries {
         // Handle base64 to image conversion
         let filename = UUID().uuidString + ".jpg"
-        var entry = Entry(id: entryWithBase64.id,
+        let entry = Entry(id: entryWithBase64.id,
                           imageFilename: filename,
                           name: entryWithBase64.name,
                           price: entryWithBase64.price,
@@ -113,14 +141,16 @@ func restoreEntries(from jsonData: Data) -> [Entry] {
                           tags: entryWithBase64.tags,
                           buyDate: entryWithBase64.buyDate)
         
-        // Convert the base64 image data to a file if it exists
-        if let imageBase64 = entryWithBase64.imageBase64 {
-            saveImage(fromBase64: imageBase64, filename: filename)
+        if intersection == nil || !restoredEntries.contains(where: { $0.id == entryWithBase64.id }) {
+            // Convert the base64 image data to a file if it exists
+            if let imageBase64 = entryWithBase64.imageBase64 {
+                saveImage(fromBase64: imageBase64, filename: filename)
+            }
             
+            // Append the converted entry to the result list
+            restoredEntries.append(entry)
         }
         
-        // Append the converted entry to the result list
-        restoredEntries.append(entry)
     }
 
     return restoredEntries
