@@ -58,6 +58,21 @@ struct EntriesListView: View {
     
     private func deleteEntry(_ entry: Entry) {
         withAnimation {
+            if let imageFilename = entry.imageFilename {
+                let fileManager = FileManager.default
+                let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let imageURL = documentsURL.appendingPathComponent("ImageData").appendingPathComponent(imageFilename)
+                
+                if fileManager.fileExists(atPath: imageURL.path) {
+                    do {
+                        try fileManager.removeItem(at: imageURL)
+                        print("Deleted image at \(imageURL.path)")
+                    } catch {
+                        print("Failed to delete image: \(error.localizedDescription)")
+                    }
+                }
+            }
+            
             dataStore.entries.removeAll { $0.id == entry.id }
             if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
                 UserDefaults.standard.set(encodedData, forKey: "entries")
