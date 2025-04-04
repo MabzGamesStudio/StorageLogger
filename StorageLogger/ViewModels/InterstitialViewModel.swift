@@ -8,7 +8,9 @@
 import GoogleMobileAds
 
 class InterstitialViewModel: NSObject, ObservableObject, FullScreenContentDelegate {
-    @Published private var interstitialAd: InterstitialAd?
+    @Published private(set) var isAdReady = false
+    private var interstitialAd: InterstitialAd?
+    private let adUnitID = "ca-app-pub-8507303924736231/2795016851"
     
     override init() {
         super.init()
@@ -20,18 +22,21 @@ class InterstitialViewModel: NSObject, ObservableObject, FullScreenContentDelega
     func loadAd() async {
         do {
             interstitialAd = try await InterstitialAd.load(
-                with: "ca-app-pub-8507303924736231/2795016851", request: Request())
+                with: adUnitID, request: Request())
             interstitialAd?.fullScreenContentDelegate = self
+            isAdReady = true
         } catch {
             print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+            isAdReady = false
         }
     }
     
     func showAd() {
-        guard let interstitialAd = interstitialAd else {
-            return print("Ad wasn't ready.")
+        guard isAdReady else {
+            print("Ad wasn't ready")
+            return
         }
 
-        interstitialAd.present(from: nil)
+        interstitialAd?.present(from: nil)
     }
 }

@@ -45,16 +45,28 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				ViewModels/InterstitialViewModel.swift,
 			);
 			target = 847975E22D754794003C2396 /* StorageLogger */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		845DF32F2D9F8007000D0653 /* Exceptions for "StorageLogger" folder in "Copy Bundle Resources" phase from "StorageLogger" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 847975E12D754794003C2396 /* Resources */;
+			membershipExceptions = (
+				ViewModels/InterstitialViewModel.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		847975E52D754794003C2396 /* StorageLogger */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				845DF30C2D90EE62000D0653 /* Exceptions for "StorageLogger" folder in "StorageLogger" target */,
+				845DF32F2D9F8007000D0653 /* Exceptions for "StorageLogger" folder in "Copy Bundle Resources" phase from "StorageLogger" target */,
 			);
 			path = StorageLogger;
 			sourceTree = "<group>";
