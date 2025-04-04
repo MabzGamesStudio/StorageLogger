@@ -12,9 +12,7 @@ import GoogleMobileAds
 struct StorageLogger: App {
     init() {
         MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [ "225a96dcd01cf6e60e6bebe2b9c21836" ]
-        MobileAds.shared.start { status in
-            print("AdMob SDK Initialized:", status.adapterStatusesByClassName)
-        }
+        MobileAds.shared.start { _ in }
     }
 
     var body: some Scene {
