@@ -7,13 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		845B4E6D2D7CCF57007976B1 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E6C2D7CCF57007976B1 /* FirebaseCore */; };
-		845B4E6F2D7CCF57007976B1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E6E2D7CCF57007976B1 /* FirebaseFirestore */; };
-		845B4E712D7CCF57007976B1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E702D7CCF57007976B1 /* FirebaseStorage */; };
-		845B4E732D7CD1E9007976B1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 845B4E722D7CD1E9007976B1 /* FirebaseAuth */; };
 		845B4E7D2D7CFDB9007976B1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 845B4E7C2D7CFDB9007976B1 /* GoogleService-Info.plist */; };
-		845DF30F2D99B6DC000D0653 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 845DF30E2D99B6DC000D0653 /* GoogleMobileAds */; };
-		845DF3122D99BBB2000D0653 /* GoogleUserMessagingPlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 845DF3112D99BBB2000D0653 /* GoogleUserMessagingPlatform */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +27,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		841ED53E2DA1AE3400DE4BEA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		845B4E7C2D7CFDB9007976B1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		847975E32D754794003C2396 /* StorageLogger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StorageLogger.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,18 +52,22 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				ViewModels/InterstitialViewModel.swift,
 			);
 			target = 847975E22D754794003C2396 /* StorageLogger */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		845DF32F2D9F8007000D0653 /* Exceptions for "StorageLogger" folder in "Copy Bundle Resources" phase from "StorageLogger" target */ = {
+		841ED53F2DA1AE3400DE4BEA /* Exceptions for "StorageLogger" folder in "Embed Frameworks" phase from "StorageLogger" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 847975E12D754794003C2396 /* Resources */;
+			attributesByRelativePath = {
+				Frameworks/GoogleMobileAds.xcframework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
+				Frameworks/UserMessagingPlatform.xcframework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
+			};
+			buildPhase = 841ED53E2DA1AE3400DE4BEA /* Embed Frameworks */;
 			membershipExceptions = (
-				ViewModels/InterstitialViewModel.swift,
+				Frameworks/GoogleMobileAds.xcframework,
+				Frameworks/UserMessagingPlatform.xcframework,
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -66,7 +77,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				845DF30C2D90EE62000D0653 /* Exceptions for "StorageLogger" folder in "StorageLogger" target */,
-				845DF32F2D9F8007000D0653 /* Exceptions for "StorageLogger" folder in "Copy Bundle Resources" phase from "StorageLogger" target */,
+				841ED53F2DA1AE3400DE4BEA /* Exceptions for "StorageLogger" folder in "Embed Frameworks" phase from "StorageLogger" target */,
 			);
 			path = StorageLogger;
 			sourceTree = "<group>";
@@ -88,12 +99,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				845B4E6D2D7CCF57007976B1 /* FirebaseCore in Frameworks */,
-				845B4E6F2D7CCF57007976B1 /* FirebaseFirestore in Frameworks */,
-				845DF30F2D99B6DC000D0653 /* GoogleMobileAds in Frameworks */,
-				845B4E712D7CCF57007976B1 /* FirebaseStorage in Frameworks */,
-				845DF3122D99BBB2000D0653 /* GoogleUserMessagingPlatform in Frameworks */,
-				845B4E732D7CD1E9007976B1 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +150,7 @@
 				847975DF2D754794003C2396 /* Sources */,
 				847975E02D754794003C2396 /* Frameworks */,
 				847975E12D754794003C2396 /* Resources */,
+				841ED53E2DA1AE3400DE4BEA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -155,12 +161,6 @@
 			);
 			name = StorageLogger;
 			packageProductDependencies = (
-				845B4E6C2D7CCF57007976B1 /* FirebaseCore */,
-				845B4E6E2D7CCF57007976B1 /* FirebaseFirestore */,
-				845B4E702D7CCF57007976B1 /* FirebaseStorage */,
-				845B4E722D7CD1E9007976B1 /* FirebaseAuth */,
-				845DF30E2D99B6DC000D0653 /* GoogleMobileAds */,
-				845DF3112D99BBB2000D0653 /* GoogleUserMessagingPlatform */,
 			);
 			productName = StorageLogger;
 			productReference = 847975E32D754794003C2396 /* StorageLogger.app */;
@@ -245,10 +245,6 @@
 			mainGroup = 847975DA2D754794003C2396;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				845B4EBA2D90E7DC007976B1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
-				845DF30D2D99B6DC000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
-				845DF3102D99BBB2000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 847975E42D754794003C2396 /* Products */;
@@ -378,10 +374,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				"LD_RUNPATH_SEARCH_PATHS[arch=*]" = "@executable_path/Frameworks";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -435,7 +433,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = /usr/lib/swift;
+				"LD_RUNPATH_SEARCH_PATHS[arch=*]" = "@executable_path/Frameworks";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -628,74 +626,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.9.0;
-			};
-		};
-		845B4EBA2D90E7DC007976B1 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.19;
-			};
-		};
-		845DF30D2D99B6DC000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.2.0;
-			};
-		};
-		845DF3102D99BBB2000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		845B4E6C2D7CCF57007976B1 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		845B4E6E2D7CCF57007976B1 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		845B4E702D7CCF57007976B1 /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
-		};
-		845B4E722D7CD1E9007976B1 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845B4E6B2D7CCF57007976B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		845DF30E2D99B6DC000D0653 /* GoogleMobileAds */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845DF30D2D99B6DC000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
-			productName = GoogleMobileAds;
-		};
-		845DF3112D99BBB2000D0653 /* GoogleUserMessagingPlatform */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845DF3102D99BBB2000D0653 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */;
-			productName = GoogleUserMessagingPlatform;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 847975DB2D754794003C2396 /* Project object */;
 }

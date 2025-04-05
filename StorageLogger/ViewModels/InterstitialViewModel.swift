@@ -6,6 +6,7 @@
 //
 
 import GoogleMobileAds
+import SwiftUI
 
 class InterstitialViewModel: NSObject, ObservableObject, FullScreenContentDelegate {
     @Published private(set) var isAdReady = false
