@@ -1,11 +1,25 @@
-# StorageLogger
+# Storage Logger
+
 
 StorageLogger is a free and open-source app designed to help you log and track your stored items efficiently. It supports compressed image storage, tagging, pricing, quantifying. Useful for managing inventories, collections, or personal storage needs.
+
+<p align="center">
+  <img src="DisplayImages/StorageLoggerIcon.png" width="100">
+</p>
 
 ## Features
 - Add images to your entries
 - Label name, price, quantity, description, notes, tags, and purchase date
 - Manually sync items (download and upload files on device)
+
+<p align="center">
+  <img src="DisplayImages/IMG_1902.PNG" width="100">
+  <img src="DisplayImages/IMG_1900.PNG" width="100">
+  <img src="DisplayImages/IMG_1897.PNG" width="100">
+  <img src="DisplayImages/IMG_1899.PNG" width="100">
+  <img src="DisplayImages/IMG_1901.PNG" width="100">
+  <img src="DisplayImages/IMG_1898.PNG" width="100">
+</p>
 
 ## Getting Started
 
@@ -34,12 +48,12 @@ StorageLogger is a free and open-source app designed to help you log and track y
 ## Project Structure
 ```
 StorageLogger
-├── Models         # Entry data model
+├── Models         # Entry, data model
 ├── Views          # Entries list view, single entry view, sync data view, and support developer view
-├── ViewModels     # Entry DataStore and ad
+├── ViewModels     # Entry, data store, and ad
 ├── Services       # Manual device file sync
 ├── Utilities      # Helper functions
-├── Frameworks     # Google Ad dependencies
+├── Frameworks     # Google ad dependencies
 ```
 
 ## Contributing
