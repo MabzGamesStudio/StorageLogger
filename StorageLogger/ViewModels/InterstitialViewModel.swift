@@ -20,15 +20,16 @@ class InterstitialViewModel: NSObject, ObservableObject, FullScreenContentDelega
         }
     }
     
+    @MainActor
     func loadAd() async {
         do {
             interstitialAd = try await InterstitialAd.load(
                 with: adUnitID, request: Request())
             interstitialAd?.fullScreenContentDelegate = self
-            isAdReady = true
+            self.isAdReady = true
         } catch {
             print("Failed to load interstitial ad with error: \(error.localizedDescription)")
-            isAdReady = false
+            self.isAdReady = false
         }
     }
     

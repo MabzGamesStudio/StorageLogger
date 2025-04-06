@@ -6,6 +6,18 @@
 //
 
 import Foundation
+import SwiftUI
+
+func loadImageFromDocumentsDirectory(filename: String) -> UIImage? {
+    let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let imageDataFolderURL = documentsURL.appendingPathComponent("ImageData")
+    let fileURL = imageDataFolderURL.appendingPathComponent(filename)
+    
+    if let imageData = try? Data(contentsOf: fileURL) {
+        return UIImage(data: imageData)
+    }
+    return nil
+}
 
 func saveImage(fromBase64 base64String: String, filename: String) {
     

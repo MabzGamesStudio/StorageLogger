@@ -29,8 +29,28 @@ class DataStore: ObservableObject {
     
     func addEntry(_ entry: Entry) { entries.append(entry) }
 
+    func removeEntry(id: String) {
+        if let index = entries.firstIndex(where: { $0.id == id }) {
+            removeEntry(at: index)
+        }
+    }
+    
     func removeEntry(at index: Int) {
+        
         guard entries.indices.contains(index) else { return }
+        
+        if let imageFilename = entries[index].imageFilename {
+            let fileManager = FileManager.default
+            let imageURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                .first?
+                .appendingPathComponent("ImageData")
+                .appendingPathComponent(imageFilename)
+            
+            if let imageURL = imageURL, fileManager.fileExists(atPath: imageURL.path) {
+                try? fileManager.removeItem(at: imageURL)
+            }
+        }
+        
         entries.remove(at: index)
     }
     
