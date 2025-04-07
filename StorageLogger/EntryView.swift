@@ -19,7 +19,7 @@ struct EntryView: View {
     @State private var showPhotoOptions = false
     @State private var showImagePicker = false
     @State private var showCamera = false
-    @State var newEntry: Bool
+    @State var isNewEntry: Bool
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @ObservedObject var dataStore = DataStore()
     @State var entry: Entry
@@ -32,7 +32,7 @@ struct EntryView: View {
     init(dataStore: DataStore, entry: Entry, newEntry: Bool, isAddingEntry: Binding<Bool>) {
         self.dataStore = dataStore
         self.entry = entry
-        self.newEntry = newEntry
+        self.isNewEntry = newEntry
         self._isAddingEntry = isAddingEntry
         _id = State(initialValue: entry.id)
         _entry = State(initialValue: entry)
@@ -43,7 +43,7 @@ struct EntryView: View {
         _notes = State(initialValue: entry.notes ?? "")
         _tags = State(initialValue: entry.tags ?? "")
         _selectedDate = State(initialValue: entry.buyDate ?? Date())
-        _newEntry = State(initialValue: newEntry)
+        _isNewEntry = State(initialValue: newEntry)
         _selectedImage = State(initialValue: entry.imageFilename != nil && !newEntry ? loadImageFromDocumentsDirectory(filename: entry.imageFilename!) : nil)
     }
     
@@ -160,7 +160,7 @@ struct EntryView: View {
                         .focused($isTextFieldFocused)
                         .onChange(of: selectedDate) { checkForChanges() }
                     Button(action: uploadEntry) {
-                        Text(newEntry ? (isUploading ? "Adding Entry..." : "Add Entry") : (isUploading ? "Editing Entry..." : "Edit Entry"))
+                        Text(isNewEntry ? (isUploading ? "Adding Entry..." : "Add Entry") : (isUploading ? "Editing Entry..." : "Edit Entry"))
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.blue)
@@ -176,7 +176,7 @@ struct EntryView: View {
                     .disabled(isUploading)
                 }
                 .padding()
-                .navigationTitle(newEntry ? "New Entry" : "Update Entry")
+                .navigationTitle(isNewEntry ? "New Entry" : "Update Entry")
                 .onTapGesture {
                     isTextFieldFocused = false
                 }
@@ -223,29 +223,22 @@ struct EntryView: View {
     }
 
     func uploadEntry() {
-        let imageFilename = selectedImage.flatMap { saveImageToDocumentsDirectory(image: $0, maxFileSizeKB: 150) }
-        let price = Double(price).flatMap { $0.isNaN ? nil : $0 }
-        let quantity = Int(quantity) ?? nil
-        let name = name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : name
-        let description = description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : description
-        let notes = notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : notes
-        let tags = tags.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : tags
-        let editedEntry = Entry(
+        let newEntry = Entry(
             id: entry.id,
-            imageFilename: imageFilename,
+            imageFilename: nil,
             name: name,
-            price: price,
-            quantity: quantity,
+            price: Double(price),
+            quantity: Int(quantity),
             description: description,
             notes: notes,
             tags: tags,
             buyDate: selectedDate
         )
-        if newEntry {
-            dataStore.addEntry(editedEntry)
+        if isNewEntry {
+            dataStore.addEntry(entry: newEntry, image: selectedImage)
         } else {
-            if let index = dataStore.entries.firstIndex(where: { $0.id == editedEntry.id }) {
-                dataStore.entries[index] = editedEntry
+            if let index = dataStore.entries.firstIndex(where: { $0.id == newEntry.id }) {
+                dataStore.updateEntry(index: index, newEntry: newEntry, image: selectedImage)
             }
         }
         if let encodedData = try? JSONEncoder().encode(dataStore.entries) {
@@ -270,40 +263,6 @@ struct EntryView: View {
             return UIImage(data: imageData)
         }
         return nil
-    }
-    
-    func saveImageToDocumentsDirectory(image: UIImage, maxFileSizeKB: Int) -> String? {
-        let maxFileSize = maxFileSizeKB * 1024
-        var compression: CGFloat = 0.0
-        var imageData: Data? = image.jpegData(compressionQuality: compression)
-        
-        while let data = imageData, data.count > maxFileSize, compression > 0.01 {
-            compression -= 0.01
-            imageData = image.jpegData(compressionQuality: compression)
-        }
-        
-        guard let finalData = imageData else { return nil }
-        
-        let filename = UUID().uuidString + ".jpg"
-        
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let imageDataFolderURL = documentsURL.appendingPathComponent("ImageData")
-        if !FileManager.default.fileExists(atPath: imageDataFolderURL.path) {
-            do {
-                try FileManager.default.createDirectory(at: imageDataFolderURL, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print("Failed to create directory: \(error)")
-            }
-        }
-        let fileURL = imageDataFolderURL.appendingPathComponent(filename)
-        
-        do {
-            try finalData.write(to: fileURL)
-            return filename
-        } catch {
-            print("Failed to save image: \(error)")
-            return nil
-        }
     }
 }
 

@@ -27,7 +27,27 @@ class DataStore: ObservableObject {
     
     func resetCounterForAd() { counterForAd = 1 }
     
-    func addEntry(_ entry: Entry) { entries.append(entry) }
+    func addEntry(entry: Entry, image: UIImage?) {
+        let imageFilename = image.flatMap { saveImage(image: $0) }
+        let price = entry.price.flatMap { $0.isNaN ? nil : $0 }
+        let quantity = entry.quantity ?? nil
+        let name = entry.name?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true ? nil : entry.name
+        let description = entry.description?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true ? nil : entry.description
+        let notes = entry.notes?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true ? nil : entry.notes
+        let tags = entry.tags?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true ? nil : entry.tags
+        let editedEntry = Entry(
+            id: entry.id,
+            imageFilename: imageFilename,
+            name: name,
+            price: price,
+            quantity: quantity,
+            description: description,
+            notes: notes,
+            tags: tags,
+            buyDate: entry.buyDate
+        )
+        entries.append(editedEntry)
+    }
 
     func removeEntry(id: String) {
         if let index = entries.firstIndex(where: { $0.id == id }) {
@@ -35,23 +55,38 @@ class DataStore: ObservableObject {
         }
     }
     
+    func updateEntry(index: Int, newEntry: Entry, image: UIImage?) {
+        guard entries.indices.contains(index) else { return }
+        
+        if let imageFilename = entries[index].imageFilename {
+            deleteImage(imageFilename: imageFilename)
+        }
+        
+        entries[index] = newEntry
+        entries[index].imageFilename = image.flatMap { saveImage(image: $0) }
+    }
+    
     func removeEntry(at index: Int) {
         
         guard entries.indices.contains(index) else { return }
         
         if let imageFilename = entries[index].imageFilename {
-            let fileManager = FileManager.default
-            let imageURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                .first?
-                .appendingPathComponent("ImageData")
-                .appendingPathComponent(imageFilename)
-            
-            if let imageURL = imageURL, fileManager.fileExists(atPath: imageURL.path) {
-                try? fileManager.removeItem(at: imageURL)
-            }
+            deleteImage(imageFilename: imageFilename)
         }
         
         entries.remove(at: index)
+    }
+    
+    private func deleteImage(imageFilename: String) {
+        let fileManager = FileManager.default
+        let imageURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            .first?
+            .appendingPathComponent("ImageData")
+            .appendingPathComponent(imageFilename)
+        
+        if let imageURL = imageURL, fileManager.fileExists(atPath: imageURL.path) {
+            try? fileManager.removeItem(at: imageURL)
+        }
     }
     
     private func saveEntries() {

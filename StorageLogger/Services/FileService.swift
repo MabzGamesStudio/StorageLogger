@@ -37,6 +37,42 @@ func saveImage(fromBase64 base64String: String, filename: String) {
     }
 }
 
+func saveImage(image: UIImage) -> String? {
+    
+    let maxFileSizeKB = 150
+    let maxFileSize = maxFileSizeKB * 1024
+    var compression: CGFloat = 0.0
+    var imageData: Data? = image.jpegData(compressionQuality: compression)
+    
+    while let data = imageData, data.count > maxFileSize, compression > 0.01 {
+        compression -= 0.01
+        imageData = image.jpegData(compressionQuality: compression)
+    }
+    
+    guard let finalData = imageData else { return nil }
+    
+    let filename = UUID().uuidString + ".jpg"
+    
+    let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let imageDataFolderURL = documentsURL.appendingPathComponent("ImageData")
+    if !FileManager.default.fileExists(atPath: imageDataFolderURL.path) {
+        do {
+            try FileManager.default.createDirectory(at: imageDataFolderURL, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("Failed to create directory: \(error)")
+        }
+    }
+    let fileURL = imageDataFolderURL.appendingPathComponent(filename)
+    
+    do {
+        try finalData.write(to: fileURL)
+        return filename
+    } catch {
+        print("Failed to save image: \(error)")
+        return nil
+    }
+}
+
 func restoreEntries(from jsonData: Data, intersection: [Entry]?) -> [Entry] {
 
     guard let decodedEntries = decodeEntries(from: jsonData) else {
