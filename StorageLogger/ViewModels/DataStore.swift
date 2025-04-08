@@ -29,13 +29,24 @@ class DataStore: ObservableObject {
     
     func addEntry(entry: Entry, image: UIImage?) {
         let imageFilename = image.flatMap { saveImage(image: $0) }
+        
         let price = entry.price.flatMap { $0.isNaN ? nil : $0 }
+        
         let quantity = entry.quantity ?? nil
-        let name = entry.name?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true ? nil : entry.name
-        let description = entry.description?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true ? nil : entry.description
-        let notes = entry.notes?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true ? nil : entry.notes
-        let tags = entry.tags?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true ? nil : entry.tags
-        let editedEntry = Entry(
+        
+        let trimmedName = entry.name?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let name = (trimmedName?.isEmpty == true) ? nil : trimmedName
+        
+        let trimmedDescription = entry.description?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let description = (trimmedDescription?.isEmpty == true) ? nil : trimmedDescription
+        
+        let trimmedNotes = entry.notes?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let notes = (trimmedNotes?.isEmpty == true) ? nil : trimmedNotes
+        
+        let trimmedTags = entry.tags?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let tags = (trimmedTags?.isEmpty == true) ? nil : trimmedTags
+        
+        entries.append(Entry(
             id: entry.id,
             imageFilename: imageFilename,
             name: name,
@@ -45,8 +56,7 @@ class DataStore: ObservableObject {
             notes: notes,
             tags: tags,
             buyDate: entry.buyDate
-        )
-        entries.append(editedEntry)
+        ))
     }
 
     func removeEntry(id: String) {

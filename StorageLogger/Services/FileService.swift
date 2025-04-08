@@ -19,21 +19,24 @@ func loadImageFromDocumentsDirectory(filename: String) -> UIImage? {
     return nil
 }
 
-func saveImage(fromBase64 base64String: String, filename: String) {
+func saveImage(base64String: String) -> String? {
     
     guard let imageData = Data(base64Encoded: base64String) else {
         print("Failed to decode base64 string")
-        return
+        return nil
     }
-        
+    
     let imageDataFolderURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         .appendingPathComponent("ImageData")
     
     do {
+        let filename = UUID().uuidString + ".jpg"
         try FileManager.default.createDirectory(at: imageDataFolderURL, withIntermediateDirectories: true)
         try imageData.write(to: imageDataFolderURL.appendingPathComponent(filename))
+        return filename
     } catch {
         print("Error saving image: \(error.localizedDescription)")
+        return nil
     }
 }
 
@@ -86,7 +89,6 @@ func restoreEntries(from jsonData: Data, intersection: [Entry]?) -> [Entry] {
     var restoredEntries: [Entry] = intersection ?? []
 
     for importedEntry in decodedEntries {
-        let filename = UUID().uuidString + ".jpg"
         
         let entryAlreadyExists = !restoredEntries.contains(where: { $0.id == importedEntry.id })
         
@@ -94,21 +96,21 @@ func restoreEntries(from jsonData: Data, intersection: [Entry]?) -> [Entry] {
             continue
         }
         
-        if let imageBase64 = importedEntry.imageBase64 {
-            saveImage(fromBase64: imageBase64, filename: filename)
+        if let imageBase64 = importedEntry.imageBase64,
+           let filename = saveImage(base64String: imageBase64){
+            restoredEntries.append(Entry(
+                id: importedEntry.id,
+                imageFilename: filename,
+                name: importedEntry.name,
+                price: importedEntry.price,
+                quantity: importedEntry.quantity,
+                description: importedEntry.description,
+                notes: importedEntry.notes,
+                tags: importedEntry.tags,
+                buyDate: importedEntry.buyDate
+            ))
         }
         
-        restoredEntries.append(Entry(
-            id: importedEntry.id,
-            imageFilename: filename,
-            name: importedEntry.name,
-            price: importedEntry.price,
-            quantity: importedEntry.quantity,
-            description: importedEntry.description,
-            notes: importedEntry.notes,
-            tags: importedEntry.tags,
-            buyDate: importedEntry.buyDate
-        ))
     }
 
     return restoredEntries
