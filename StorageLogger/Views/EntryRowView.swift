@@ -16,13 +16,27 @@ struct EntryRowView: View {
         HStack(alignment: .top) {
             EntryImageView(imageFilename: entry.imageFilename)
             VStack(alignment: .leading) {
-                Text("Name: \(entry.name ?? "")")
-                if let price = entry.price { Text("Price: $\(price, specifier: "%.2f")") }
-                if let quantity = entry.quantity { Text("Quantity: \(quantity)") }
-                if let description = entry.description { Text("Description: \(description)") }
-                if let notes = entry.notes { Text("Notes: \(notes)") }
-                if let tags = entry.tags { Text("Tags: \(tags)") }
-                if let buyDate = entry.buyDate { Text("Buy Date: \(formatDate(buyDate))") }
+                if let name = entry.name?.trimmingCharacters(in: .whitespacesAndNewlines), !name.isEmpty {
+                    Text("Name: \(name)")
+                }
+                if let price = entry.price {
+                    Text("Price: $\(price, specifier: "%.2f")")
+                }
+                if let quantity = entry.quantity {
+                    Text("Quantity: \(quantity)")
+                }
+                if let description = entry.description?.trimmingCharacters(in: .whitespacesAndNewlines), !description.isEmpty {
+                    Text("Description: \(description)")
+                }
+                if let notes = entry.notes?.trimmingCharacters(in: .whitespacesAndNewlines), !notes.isEmpty {
+                    Text("Notes: \(notes)")
+                }
+                if let tags = entry.tags?.trimmingCharacters(in: .whitespacesAndNewlines), !tags.isEmpty {
+                    Text("Tags: \(tags)")
+                }
+                if let buyDate = entry.buyDate {
+                    Text("Buy Date: \(formatDate(buyDate))")
+                }
             }
         }
         .padding(.vertical, 5)

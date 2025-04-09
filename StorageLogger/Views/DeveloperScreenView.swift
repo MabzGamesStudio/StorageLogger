@@ -10,6 +10,10 @@ import SwiftUI
 struct DeveloperScreenView: View {
     private let lightningAddress = "mabzlips@strike.me"
     
+    private func copyAddress() {
+        UIPasteboard.general.string = lightningAddress
+    }
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Support the Developer")
@@ -55,10 +59,6 @@ struct DeveloperScreenView: View {
             Spacer()
         }
         .padding()
-    }
-    
-    private func copyAddress() {
-        UIPasteboard.general.string = lightningAddress
     }
     
 }

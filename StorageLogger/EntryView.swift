@@ -58,6 +58,17 @@ struct EntryView: View {
             || entry.tags != tags
             || entry.buyDate != selectedDate
     }
+    
+    private var inputFields: [(title: String, binding: Binding<String>, keyboardType: UIKeyboardType)] {
+        [
+            ("Name", $name, .default),
+            ("Price", $price, .decimalPad),
+            ("Quantity", $quantity, .numberPad),
+            ("Description", $description, .default),
+            ("Notes", $notes, .default),
+            ("Tags", $tags, .default)
+        ]
+    }
 
     var body: some View {
         NavigationView {
@@ -114,51 +125,25 @@ struct EntryView: View {
                         selectedImageChanged = true
                         checkForChanges()
                     }
-                    // TODO: Fix image change
                     
-                    TextField("Name", text: $name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                        .focused($isTextFieldFocused)
-                        .onChange(of: name) { checkForChanges() }
-                    
-                    TextField("Price", text: $price)
-                        .keyboardType(.decimalPad)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                        .focused($isTextFieldFocused)
-                        .onChange(of: price) { checkForChanges() }
-                    
-                    TextField("Quantity", text: $quantity)
-                        .keyboardType(.numberPad)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                        .focused($isTextFieldFocused)
-                        .onChange(of: quantity) { checkForChanges() }
-                    
-                    TextField("Description", text: $description)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                        .focused($isTextFieldFocused)
-                        .onChange(of: description) { checkForChanges() }
-                    
-                    TextField("Notes", text: $notes)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                        .focused($isTextFieldFocused)
-                        .onChange(of: notes) { checkForChanges() }
-                    
-                    TextField("Tags", text: $tags)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                        .focused($isTextFieldFocused)
-                        .onChange(of: tags) { checkForChanges() }
-                    
+                    ForEach(inputFields, id: \.title) { field in
+                        TextField(field.title, text: field.binding)
+                            .keyboardType(field.keyboardType)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding()
+                            .focused($isTextFieldFocused)
+                            .onChange(of: field.binding.wrappedValue) {
+                                checkForChanges()
+                            }
+                    }
                     DatePicker("Buy Date", selection: $selectedDate, displayedComponents: .date)
                         .datePickerStyle(.compact)
                         .padding()
                         .focused($isTextFieldFocused)
-                        .onChange(of: selectedDate) { checkForChanges() }
+                        .onChange(of: selectedDate) {
+                            checkForChanges()
+                        }
+                    
                     Button(action: uploadEntry) {
                         Text(isNewEntry ? (isUploading ? "Adding Entry..." : "Add Entry") : (isUploading ? "Editing Entry..." : "Edit Entry"))
                             .frame(maxWidth: .infinity)
@@ -223,6 +208,7 @@ struct EntryView: View {
     }
 
     func uploadEntry() {
+        isUploading = true
         let newEntry = Entry(
             id: entry.id,
             imageFilename: nil,
@@ -263,39 +249,5 @@ struct EntryView: View {
             return UIImage(data: imageData)
         }
         return nil
-    }
-}
-
-
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var image: UIImage?
-    var sourceType: UIImagePickerController.SourceType
-
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        picker.sourceType = sourceType
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        let parent: ImagePicker
-
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
-
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            if let uiImage = info[.originalImage] as? UIImage {
-                parent.image = uiImage
-            }
-            picker.dismiss(animated: true)
-        }
     }
 }
