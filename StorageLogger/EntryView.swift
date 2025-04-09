@@ -136,6 +136,7 @@ struct EntryView: View {
                                 checkForChanges()
                             }
                     }
+                    
                     DatePicker("Buy Date", selection: $selectedDate, displayedComponents: .date)
                         .datePickerStyle(.compact)
                         .padding()
@@ -162,9 +163,6 @@ struct EntryView: View {
                 }
                 .padding()
                 .navigationTitle(isNewEntry ? "New Entry" : "Update Entry")
-                .onTapGesture {
-                    isTextFieldFocused = false
-                }
                 .toolbar(content: {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
