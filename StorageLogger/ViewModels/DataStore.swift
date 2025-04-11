@@ -58,12 +58,6 @@ class DataStore: ObservableObject {
             buyDate: entry.buyDate
         ))
     }
-
-    func removeEntry(id: String) {
-        if let index = entries.firstIndex(where: { $0.id == id }) {
-            removeEntry(at: index)
-        }
-    }
     
     func updateEntry(index: Int, newEntry: Entry, image: UIImage?) {
         guard entries.indices.contains(index) else { return }
@@ -85,6 +79,13 @@ class DataStore: ObservableObject {
         }
         
         entries.remove(at: index)
+    }
+    
+    
+    func removeEntry(id: String) {
+        if let index = entries.firstIndex(where: { $0.id == id }) {
+            removeEntry(at: index)
+        }
     }
     
     private func deleteImage(imageFilename: String) {
