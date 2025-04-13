@@ -183,11 +183,6 @@ struct EntryView: View {
                 .alert(isPresented: $showDiscardAlert) { discardAlert }
             }
         }
-        .onAppear {
-            Task {
-                await adViewModel.loadAd()
-            }
-        }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: Button(action: {
             if viewModel.hasChanges {
