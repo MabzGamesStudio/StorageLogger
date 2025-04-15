@@ -54,16 +54,19 @@ func saveImage(base64String: String) -> String? {
 /// - Returns: The generated filename if saving is successful, otherwise `nil`.
 func saveImage(image: UIImage) -> String? {
     
-    // Maximum file size set to be 150kb
-    let maxFileSizeKB = 150
+    // Maximum file size set to be 100kb
+    let maxFileSizeKB = 100
     let maxFileSize = maxFileSizeKB * 1024
-    var compression: CGFloat = 0.0
-    var imageData: Data? = image.jpegData(compressionQuality: compression)
+    var compressedQuality: CGFloat = 0.7
+    var resizedImage = image
+    var imageData: Data? = image.jpegData(compressionQuality: compressedQuality)
     
-    // Gradually increase compression until the image fits under the size limit
-    while let data = imageData, data.count > maxFileSize, compression > 0.01 {
-        compression -= 0.01
-        imageData = image.jpegData(compressionQuality: compression)
+    // Gradually decrease compressed quality value until the image fits under the size limit
+    while let data = imageData, data.count > maxFileSize && compressedQuality >= 0.1 {
+        compressedQuality -= 0.1
+        guard let newImage = resizeImage(image: image, scale: compressedQuality) else { break }
+        resizedImage = newImage
+        imageData = resizedImage.jpegData(compressionQuality: compressedQuality)
     }
     guard let finalData = imageData else { return nil }
     let filename = UUID().uuidString + ".jpg"
@@ -154,4 +157,25 @@ private func clearImageDataFolder() {
     } catch {
         print("Failed to clear ImageData folder: \(error)")
     }
+}
+
+/// Resizes an image to a smaller size using the scale factor.
+///
+/// - Parameters:
+///   - image : The image to resize.
+///   - scale: The scaling factor of the image to reduce its size, from 0 to 1.
+/// - Returns: The resized image.
+private func resizeImage(image: UIImage, scale: CGFloat) -> UIImage? {
+    let newSize = CGSize(
+        width: image.size.width * scale,
+        height: image.size.height * scale
+    )
+    let format = UIGraphicsImageRendererFormat()
+    format.scale = 1.0
+    format.opaque = false
+    let renderer = UIGraphicsImageRenderer(size: newSize, format: format)
+    let resizedImage = renderer.image { _ in
+        image.draw(in: CGRect(origin: .zero, size: newSize).integral)
+    }
+    return resizedImage
 }
