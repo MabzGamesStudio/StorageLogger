@@ -179,19 +179,25 @@
 	<array>
 		<string></string>
 	</array>
-    <key>CFBundleDocumentTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleTypeName</key>
-            <string>StorageLogger File</string>
-            <key>LSHandlerRank</key>
-            <string>Default</string>
-            <key>LSItemContentTypes</key>
-            <array>
-                <string>public.content</string>
-            </array>
-        </dict>
-    </array>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>StorageLogger File</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.content</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleIdentifier</key>
+	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>We let you use your camera to take photos that can be attached to your data entries.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We let you access your photo library to use photos that can be attached to your data entries.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>
