@@ -2,6 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AdNetworkIdentifiers</key>
+	<array>
+		<string></string>
+	</array>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>StorageLogger File</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.content</string>
+			</array>
+		</dict>
+	</array>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-8507303924736231~2795016851</string>
 	<key>SKAdNetworkItems</key>
@@ -175,29 +192,6 @@
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
-	<key>AdNetworkIdentifiers</key>
-	<array>
-		<string></string>
-	</array>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>StorageLogger File</string>
-			<key>LSHandlerRank</key>
-			<string>Default</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.content</string>
-			</array>
-		</dict>
-	</array>
-	<key>CFBundleIdentifier</key>
-	<string></string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow access to your photo library to attach images to your data entries.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Allow access to your camera to take photos to attach images to your data entries.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>

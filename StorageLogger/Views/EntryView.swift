@@ -22,7 +22,7 @@ struct EntryView: View {
     @State private var selectedDate = Date()
     
     /// Whether to show the discard entry data alert
-    @State private var showDiscardAlert = false
+    @State private var showAlert = false
     
     /// The ad to possibly load following an entry addition or update
     @State private var adViewModel = InterstitialViewModel()
@@ -32,6 +32,19 @@ struct EntryView: View {
     
     /// Controls presentation of this view.
     @Binding var isAddingEntry: Bool
+    
+    /// Whether the entry alert is for permissions or discarding the entry
+    @State private var alertType = EntryAlert.discard
+    
+    /// Types of alerts the user could face in the entry view
+    enum EntryAlert {
+        
+        /// Show alert for discarding entry changes
+        case discard
+        
+        /// Show alert for changing user permissions for camera/photo library in settings
+        case permission
+    }
     
     /// Initializes the EntryView with entry data, store, and edit state.
     /// - Parameters:
@@ -120,7 +133,7 @@ struct EntryView: View {
     private var inputFieldsView: some View {
         VStack {
             
-            // Iteration through text-based input fields
+            /// Iteration through text-based input fields
             ForEach(inputFields, id: \.0) { field in
                 TextField(field.0, text: field.1)
                     .keyboardType(field.2)
@@ -141,7 +154,7 @@ struct EntryView: View {
                     }
             }
             
-            // Buy date input field
+            /// Buy date input field
             DatePicker("Buy Date", selection: $selectedDate, displayedComponents: .date)
                 .datePickerStyle(.compact)
                 .padding()
@@ -183,6 +196,20 @@ struct EntryView: View {
             secondaryButton: .cancel()
         )
     }
+    
+    /// Alert the user to update permissions if camera or photo library access is restricted, and the user is attempting to get a photo.
+    private var permissionsAlert: Alert {
+        Alert(
+            title: Text("Permission Required"),
+            message: Text("Enable camera/photo library access in Settings to use this feature."),
+            primaryButton: .default(Text("Open Settings")) {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            },
+            secondaryButton: .cancel()
+        )
+    }
 
     /// Toolbar displayed with keyboard and "Done" button to allow dismissal.
     private var keyboardToolbar: some ToolbarContent {
@@ -192,18 +219,33 @@ struct EntryView: View {
         }
     }
 
-    /// Action sheet with image selection options.
+    /// Action sheet with image selection options. Ask for permissions if necessary, and alert the user if access is restricted when they try to use it.
     private var photoOptionsActionSheet: ActionSheet {
         ActionSheet(
             title: Text("Choose Image Source"),
             buttons: [
                 .default(Text("Take a Photo")) {
-                    viewModel.sourceType = .camera
-                    viewModel.showCamera = true
+                    checkCameraPermission { granted in
+                        if granted {
+                            viewModel.sourceType = .camera
+                            viewModel.showCamera = true
+                        } else {
+                            
+                            alertType = .permission
+                            showAlert = true
+                        }
+                    }
                 },
                 .default(Text("Choose from Photos")) {
-                    viewModel.sourceType = .photoLibrary
-                    viewModel.showImagePicker = true
+                    checkPhotoLibraryPermission { granted in
+                        if granted {
+                            viewModel.sourceType = .photoLibrary
+                            viewModel.showImagePicker = true
+                        } else {
+                            alertType = .permission
+                            showAlert = true
+                        }
+                    }
                 },
                 .cancel()
             ]
@@ -222,15 +264,25 @@ struct EntryView: View {
                 .padding()
                 .navigationTitle(viewModel.isNewEntry ? "New Entry" : "Update Entry")
                 .toolbar(content: { keyboardToolbar })
-                .alert(isPresented: $showDiscardAlert) { discardAlert }
+                
+                /// Display alert for entry view by alert type
+                .alert(isPresented: $showAlert) {
+                    switch alertType {
+                        case .discard:
+                            discardAlert
+                        case .permission:
+                            permissionsAlert
+                    }
+                }
             }
         }
         
-        // When navigating back to entries list view, alert user if changes will be discarded
+        /// When navigating back to entries list view, alert user if changes will be discarded
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: Button(action: {
             if viewModel.hasChanges {
-                showDiscardAlert = true
+                alertType = .discard
+                showAlert = true
             } else {
                 self.presentationMode.wrappedValue.dismiss()
             }
