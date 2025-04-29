@@ -25,9 +25,6 @@ struct EntriesListView: View {
     /// Controls whether the entry form is shown for creating/editing entries.
     @State private var isAddingEntry = false
     
-    /// Controls whether the developer support screen is shown.
-    @State private var isShowingDeveloperInfo = false
-    
     /// Controls whether the data import/export screen is shown.
     @State private var isShowingDataUpload = false
     
@@ -53,11 +50,6 @@ struct EntriesListView: View {
         return Group {
             ToolbarItem(placement: .navigationBarLeading) {
                 HStack {
-                    
-                    // Opens the developer support screen
-                    Button(action: { isShowingDeveloperInfo = true }) {
-                        Image(systemName: "person.fill")
-                    }
                     
                     // Opens the data export/import screen
                     Button(action: { isShowingDataUpload = true }) {
@@ -115,9 +107,6 @@ struct EntriesListView: View {
                         newEntry: selectedEntry == nil,
                         isAddingEntry: $isAddingEntry
                     )
-                }
-                .navigationDestination(isPresented: $isShowingDeveloperInfo) {
-                    DeveloperScreenView()
                 }
                 .navigationDestination(isPresented: $isShowingDataUpload) {
                     ExportDataView(dataStore: dataStore)
