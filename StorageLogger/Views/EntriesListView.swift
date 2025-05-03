@@ -42,9 +42,27 @@ struct EntriesListView: View {
     
     /// A computed list of entries filtered based on the current `searchText`.
     private var filteredEntries: [Entry] {
-        searchText.isEmpty ? dataStore.entries : dataStore.entries.filter {
-            let query = searchText.lowercased()
-            return [$0.name, $0.description, $0.notes, $0.tags].compactMap { $0?.lowercased().contains(query) }.contains(true)
+        
+        // Return full list if search text is empty
+        guard !searchText.isEmpty else { return dataStore.entries }
+        
+        // Convert searchText string into String array with space separator
+        let keywords = searchText
+            .lowercased()
+            .split(separator: " ")
+            .map(String.init)
+
+        // Include entry if all keywords in searchTest exist somewhere in the entry
+        return dataStore.entries.filter { entry in
+            let searchableText = [
+                entry.name,
+                entry.description,
+                entry.notes,
+                entry.tags
+            ]
+            .compactMap { $0?.lowercased() }
+            .joined(separator: " ")
+            return keywords.allSatisfy { searchableText.contains($0) }
         }
     }
     
